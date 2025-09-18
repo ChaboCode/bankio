@@ -1,5 +1,7 @@
+import 'package:bankio/send.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:qr_flutter/qr_flutter.dart';
 
 void main() {
   runApp(const MyApp());
@@ -46,7 +48,7 @@ class Home extends StatelessWidget {
                     const SizedBox(
                       height: 12,
                     ),
-                    Text('Bienvenido a Bankio',
+                    Text('Bienvenido a YaYa',
                         style: GoogleFonts.manrope(fontSize: 16)),
                   ])),
           actions: [
@@ -152,7 +154,11 @@ class Home extends StatelessWidget {
                           height: 72,
                           width: 72,
                           child: IconButton.filled(
-                            onPressed: () {},
+                            onPressed: () {
+                              Navigator.of(context).push(
+                                MaterialPageRoute(builder: (context) => Scanner())
+                              );
+                            },
                             icon: const Icon(
                               Icons.send_sharp,
                               color: Color(0xFF8AFFE8),
@@ -193,7 +199,15 @@ class Home extends StatelessWidget {
                     ),
                   ),
                 ],
-              )
+              ),
+              QrImageView(
+                data: 'https://ilp.interledger-test.dev/pingadeburra',
+                version: QrVersions.auto,
+                size: 150.0,
+                // dataModuleStyle: const QrDataModuleStyle(dataModuleShape: QrDataModuleShape.circle),
+                // gapless: false,
+                // eyeStyle: const QrEyeStyle(eyeShape: QrEyeShape.circle),
+              ),
             ],
           ),
         ));
