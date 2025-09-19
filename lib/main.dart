@@ -1,4 +1,4 @@
-import 'package:bankio/send.dart';
+import 'package:bankio/contacts.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:qr_flutter/qr_flutter.dart';
@@ -16,7 +16,7 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'Flutter Demo',
       theme: ThemeData(
-        colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
+        colorScheme: ColorScheme.fromSeed(seedColor: Colors.black45),
         useMaterial3: true,
       ),
       home: const Home(),
@@ -155,9 +155,19 @@ class Home extends StatelessWidget {
                           width: 72,
                           child: IconButton.filled(
                             onPressed: () {
-                              Navigator.of(context).push(
-                                MaterialPageRoute(builder: (context) => Scanner())
-                              );
+                              Navigator.of(context).push(MaterialPageRoute(
+                                  builder: (context) => ContactSelector(
+                                        contacts: [
+                                          Contact('Javier Ochoa',
+                                              'https://ilp.interledger-test.dev/javierochoa'),
+                                          Contact('Saul Chavez',
+                                              'https://ilp.interledger-test.dev/pingadeburra'),
+                                          Contact('Javier Ochoa',
+                                              'https://ilp.interledger-test.dev/javierochoa'),
+                                          Contact('Javier Ochoa',
+                                              'https://ilp.interledger-test.dev/javierochoa'),
+                                        ],
+                                      )));
                             },
                             icon: const Icon(
                               Icons.send_sharp,
