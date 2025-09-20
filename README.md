@@ -1,16 +1,34 @@
-# YaYa
+# YaYa App
 
-Payments. Reformulated. Improved. Unbeatable.
+## What is the problem?
+87% of P2P transactions in Mexico are informal, relying on cash or slow bank transfers, with high fees and lack of payment confirmation transparency.
 
-## Getting Started
+## What technology will you use?
+Flutter (mobile frontend), Node.js + Express (backend), Interledger Open Payments API.
 
-This project is a starting point for a Flutter application.
+## What is the solution?
+YaYa enables instant P2P transfers via QR scanning, using secure tokens and zero fees for local transactions, with real-time confirmations.
 
-A few resources to get you started if this is your first Flutter project:
+## What are the benefits?
+- Transactions in under 10 seconds.
+- No sensitive data sharing (e.g., CLABE).
+- Zero fees for local payments.
+- Focus on financial inclusion for unbanked users.
 
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
+## What is your simple architecture/stack?
+Frontend: Flutter (iOS/Android) → Backend: Node.js/Express → APIs: Interledger Open Payments
 
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+## What features are essential?
+- QR generation and scanning.
+- Instant transfers with tokens.
+- Push notifications for confirmation.
+- Minimalist Spanish interface.
+
+## Who will be responsible for building which part?
+- **Ochoa**: Backend/Interledger APIs.
+- **Saul**: Flutter/WebSockets implementation.
+- **Dylan**: UX/UI and flow design.
+- **Ian**: Pitch and documentation.
+
+---  
+*Developed for the Interledger Hackathon 2025 by the Tu Tía Dev team.*
