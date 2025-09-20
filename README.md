@@ -1,4 +1,4 @@
-# bankio
+# YaYa
 
 Payments. Reformulated. Improved. Unbeatable.
 

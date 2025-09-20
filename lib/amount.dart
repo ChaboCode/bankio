@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:app_links/app_links.dart';
+import 'package:bankio/confirm.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -20,9 +21,10 @@ class _AmountState extends State<Amount> {
 
   final _amountController = TextEditingController();
   final _channel =
-      WebSocketChannel.connect(Uri.parse('ws://192.168.1.102:6969/ws'));
+      WebSocketChannel.connect(Uri.parse('wss://yaya.kaerdos.dev/ws'));
 
   bool _sending = false;
+  bool _ok = false;
   int _id = 0;
 
   @override
@@ -69,18 +71,26 @@ class _AmountState extends State<Amount> {
     await _channel.ready;
     _channel.sink.add('{'
         '"type": "payment_first",'
-        '"sender": "https://ilp.interledger-test.dev/pingadeburra",'
+        '"sender": "https://ilp.interledger-test.dev/esochoa",'
         '"receiver": "${widget.wallet}",'
         '"amount": ${int.parse(_amountController.text.replaceAll('\$', '').split('.')[0])}'
         '}');
 
     _channel.stream.listen((msg) {
       final data = jsonDecode(msg) as Map<String, dynamic>;
+      if(data['result'] != null ) {
+        if (mounted) {
+          WidgetsBinding.instance.addPostFrameCallback((_) {
+            Navigator.of(context).push(MaterialPageRoute(builder: (context) => const Confirmation()));
+          });
+        }
+      }
       setState(() {
         _id = data['id'];
       });
       _openAuthUrl(data['redirect']!);
     });
+
   }
 
   Future<void> _openAuthUrl(String url) async {
