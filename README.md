@@ -1,5 +1,8 @@
 # YaYa App
 
+## TL;DR
+Flutter app with ExpressJS backend (backend at [backend/](backend/))
+
 ## What is the problem?
 87% of P2P transactions in Mexico are informal, relying on cash or slow bank transfers, with high fees and lack of payment confirmation transparency.
 
