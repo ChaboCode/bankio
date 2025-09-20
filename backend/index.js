@@ -12,7 +12,7 @@ app.use(express.urlencoded())
 app.post("/pay", async (req, res) => {
     const { sender, receiver, amount } = req.body
 
-    await pay(sender, receiver, amount)
+    // await pay(sender, receiver, amount)
     console.log("ai ta")
     res.send("ai mero")
 })
@@ -73,5 +73,5 @@ app.ws("/ws", (ws, req) => {
 })
 
 app.listen(6969, "0.0.0.0", () => {
-    console.log("La tienes parada en http://localhost:6969/ 🗿👍")
+    console.log("Disponible en http://localhost:6969/ 🗿👍")
 })
