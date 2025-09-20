@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:app_links/app_links.dart';
 import 'package:bankio/confirm.dart';
+import 'package:bankio/util.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -24,8 +25,6 @@ class _AmountState extends State<Amount> {
       WebSocketChannel.connect(Uri.parse('wss://yaya.kaerdos.dev/ws'));
 
   bool _sending = false;
-  bool _ok = false;
-  int _id = 0;
 
   @override
   void initState() {
@@ -46,7 +45,7 @@ class _AmountState extends State<Amount> {
     _appLinks.uriLinkStream.listen(_handleLink);
   }
 
-  void _handleLink(Uri uri) {
+  void _handleLink(Uri uri) async {
     if (!_sending) return;
     print('Link recibido: $uri');
     print('========================================================\n'
@@ -56,7 +55,7 @@ class _AmountState extends State<Amount> {
     final interact_ref = uri.queryParameters['interact_ref'];
 
     _channel.sink.add(
-        '{"type": "payment_continue", "hash": "$hash", "interact_ref": "$interact_ref", "id": $_id}');
+        '{"type": "payment_continue", "hash": "$hash", "interact_ref": "$interact_ref", "id": ${int.parse(await loadGrantId() ?? '')}}');
   }
 
   void _send() {
@@ -71,29 +70,27 @@ class _AmountState extends State<Amount> {
     await _channel.ready;
     _channel.sink.add('{'
         '"type": "payment_first",'
-        '"sender": "https://ilp.interledger-test.dev/esochoa",'
+        '"sender": "https://ilp.interledger-test.dev/prueba",'
         '"receiver": "${widget.wallet}",'
         '"amount": ${int.parse(_amountController.text.replaceAll('\$', '').split('.')[0])}'
         '}');
 
     _channel.stream.listen((msg) {
       final data = jsonDecode(msg) as Map<String, dynamic>;
-      if(data['result'] != null ) {
+      if (data['status'] != null) {
         if (mounted) {
           WidgetsBinding.instance.addPostFrameCallback((_) {
-            Navigator.of(context).push(MaterialPageRoute(builder: (context) => const Confirmation()));
+            Navigator.of(context).push(
+                MaterialPageRoute(builder: (context) => const Confirmation()));
           });
         }
       }
-      setState(() {
-        _id = data['id'];
-      });
-      _openAuthUrl(data['redirect']!);
+      _openAuthUrl(data['redirect']!, data['id']!);
     });
-
   }
 
-  Future<void> _openAuthUrl(String url) async {
+  Future<void> _openAuthUrl(String url, int id) async {
+    await saveGrantId(id);
     final uri = Uri.parse(url);
     await launchUrl(uri, mode: LaunchMode.externalApplication);
   }
